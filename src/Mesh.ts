@@ -2,6 +2,9 @@ import Object3D from './Object3D';
 import Geometry from './Geometry';
 import Material from './Material';
 
+/**
+ * Mesh
+ */
 class Mesh extends Object3D {
   _type = 'Mesh';
 
