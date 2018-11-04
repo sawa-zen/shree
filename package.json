@@ -19,7 +19,7 @@
     "three.js"
   ],
   "lint-staged": {
-    "*.{ts}": [
+    "*.ts": [
       "npm run lint:fix",
       "git add"
     ]

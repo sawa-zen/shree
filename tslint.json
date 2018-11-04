@@ -15,7 +15,8 @@
     "no-use-before-declare": false,
     "jsx-no-multiline-js": false,
     "object-literal-sort-keys": false,
-    "ordered-imports": false
+    "ordered-imports": false,
+    "variable-name": [true, "ban-keywords", "check-format", "allow-leading-underscore"]
   },
   "linterOptions": {
     "typeCheck": true

@@ -6,14 +6,12 @@ import Material from './Material';
  * Mesh
  */
 class Mesh extends Object3D {
-  _type = 'Mesh';
-
-  _geometry: Geometry;
+  private _geometry: Geometry;
   get geometry() {
     return this._geometry;
   }
 
-  _material: Material;
+  private _material: Material;
   get material() {
     return this._material;
   }
