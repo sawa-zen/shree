@@ -7,7 +7,9 @@
   "scripts": {
     "start": "webpack --config webpack.dev.js --watch",
     "build": "webpack --config webpack.prod.js --display-used-exports",
-    "prepublish": "npm run build"
+    "lint": "tslint -c tslint.json -p tsconfig.json",
+    "lint:fix": "npm run lint -- --fix",
+    "precommit": "lint-staged"
   },
   "repository": {
     "type": "git",
@@ -16,6 +18,12 @@
   "keywords": [
     "three.js"
   ],
+  "lint-staged": {
+    "*.{ts}": [
+      "npm run lint:fix",
+      "git add"
+    ]
+  },
   "author": "sawa-zen",
   "license": "ISC",
   "bugs": {
