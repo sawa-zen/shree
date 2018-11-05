@@ -4,6 +4,28 @@
   <meta charset="UTF-8">
   <title>SocketReaction</title>
   <script src="../dist/shree.js"></script>
+  <script type="x-shader/x-vertex" id="vs">
+    attribute vec3 position;
+    attribute vec4 color;
+    uniform   mat4 mMatrix;
+    uniform   mat4 vMatrix;
+    uniform   mat4 pMatrix;
+    varying   vec4 vColor;
+
+    void main(void){
+        vColor = color;
+        gl_Position = pMatrix * vMatrix * mMatrix * vec4(position, 1.0);
+    }
+  </script>
+  <script type="x-shader/x-fragment" id="fs">
+    precision mediump float;
+
+    varying vec4 vColor;
+
+    void main(void){
+        gl_FragColor = vColor;
+    }
+  </script>
 </head>
 <style>
 html,
@@ -21,8 +43,60 @@ body {
 <body>
   <div id="wrapper"></div>
   <script>
-    console.info(SHREE.Renderer);
+    var wrapper = document.getElementById('wrapper');
     var renderer = new SHREE.Renderer();
+    wrapper.appendChild(renderer.domElement);
+    renderer.setSize(wrapper.clientWidth, wrapper.clientHeight);
+
+    var scene = new SHREE.Scene();
+
+    var geometry = new SHREE.Geometry();
+    geometry.addAttribute('position', 3, [
+       0.0,  1.5,  0.0,
+       1.0,  0.0,  1.0,
+       1.0,  0.0, -1.0,
+      -1.0,  0.0, -1.0,
+      -1.0,  0.0,  1.0,
+       0.0, -1.5,  0.0,
+    ]);
+    geometry.addAttribute('color', 4, [
+      1.0, 0.0, 0.0, 1.0, // 赤
+      0.0, 1.0, 0.0, 1.0, // 緑
+      0.0, 0.0, 1.0, 1.0, // 青
+      1.0, 0.0, 1.0, 1.0, // 藍
+      0.0, 1.0, 1.0, 1.0, // 水
+      1.0, 1.0, 0.0, 1.0  // 黄
+    ]);
+    geometry.index = [
+      0, 1, 2,
+      0, 2, 3,
+      0, 3, 4,
+      0, 4, 1,
+      5, 2, 1,
+      5, 3, 2,
+      5, 4, 3,
+      5, 1, 4,
+    ];
+
+    var material = new SHREE.Material({
+      vertexShader: document.getElementById('vs').text,
+      fragmentShader: document.getElementById('fs').text,
+    });
+
+    var mesh = new SHREE.Mesh(geometry, material);
+    scene.add(mesh);
+
+    var count = 0;
+    var render = function() {
+      count += 1;
+      var rad = (count % 360) * Math.PI / 180;
+      mesh.position[1] = Math.sin(rad) * 3;
+      mesh.rotation[0] = rad * 3;
+      renderer.render(scene);
+      requestAnimationFrame(render);
+    }
+
+    render();
   </script>
 </body>
 </html>
