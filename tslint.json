@@ -16,7 +16,8 @@
     "jsx-no-multiline-js": false,
     "object-literal-sort-keys": false,
     "ordered-imports": false,
-    "variable-name": [true, "ban-keywords", "check-format", "allow-leading-underscore"]
+    "variable-name": [true, "ban-keywords", "check-format", "allow-leading-underscore"],
+    "one-variable-per-declaration": false
   },
   "linterOptions": {
     "typeCheck": true
