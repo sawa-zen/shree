@@ -480,6 +480,51 @@ class Matrix4 extends Float32Array {
 
     return this;
   }
+
+  public compose(position: number[], quaternion: number[], scale: number[]) {
+    const x = quaternion[0],
+      y = quaternion[1],
+      z = quaternion[2],
+      w = quaternion[3];
+    const x2 = x + x,
+      y2 = y + y,
+      z2 = z + z;
+    const xx = x * x2,
+      xy = x * y2,
+      xz = x * z2;
+    const yy = y * y2,
+      yz = y * z2,
+      zz = z * z2;
+    const wx = w * x2,
+      wy = w * y2,
+      wz = w * z2;
+
+    const sx = scale[0],
+      sy = scale[1],
+      sz = scale[2];
+
+    this[0] = (1 - (yy + zz)) * sx;
+    this[1] = (xy + wz) * sx;
+    this[2] = (xz - wy) * sx;
+    this[3] = 0;
+
+    this[4] = (xy - wz) * sy;
+    this[5] = (1 - (xx + zz)) * sy;
+    this[6] = (yz + wx) * sy;
+    this[7] = 0;
+
+    this[8] = (xz + wy) * sz;
+    this[9] = (yz - wx) * sz;
+    this[10] = (1 - (xx + yy)) * sz;
+    this[11] = 0;
+
+    this[12] = position[0];
+    this[13] = position[1];
+    this[14] = position[2];
+    this[15] = 1;
+
+    return this;
+  }
 }
 
 export default Matrix4;

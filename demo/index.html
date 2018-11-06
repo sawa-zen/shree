@@ -88,10 +88,11 @@ body {
 
     var count = 0;
     var render = function() {
-      count += 1;
+      count += 3;
       var rad = (count % 360) * Math.PI / 180;
-      mesh.position[1] = Math.sin(rad) * 3;
-      mesh.rotation[0] = rad * 3;
+      mesh.rotation[1] = rad * -3;
+      mesh.position[0] = Math.sin(rad) * 3;
+      mesh.position[1] = Math.cos(rad) * 3;
       renderer.render(scene);
       requestAnimationFrame(render);
     }
