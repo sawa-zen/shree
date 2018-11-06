@@ -5,6 +5,8 @@ import Geometry from './Geometry';
 import Material from './Material';
 import Mesh from './Mesh';
 import Scene from './Scene';
+import Vector3 from './Vector3';
+import Quaternion from './Quaternion';
 
 export default {
   Renderer,
@@ -14,4 +16,6 @@ export default {
   Material,
   Mesh,
   Scene,
+  Vector3,
+  Quaternion
 };
