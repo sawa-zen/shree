@@ -30,7 +30,9 @@
     "url": "https://github.com/sawa-zen/shree/issues"
   },
   "homepage": "https://github.com/sawa-zen/shree#readme",
-  "dependencies": {},
+  "dependencies": {
+    "eventemitter3": "^3.1.0"
+  },
   "devDependencies": {
     "@types/webpack": "^4.4.17",
     "fork-ts-checker-webpack-plugin": "^0.4.14",

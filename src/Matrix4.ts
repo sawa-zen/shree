@@ -1,3 +1,6 @@
+import Quaternion from './Quaternion';
+import Vector3 from './Vector3';
+
 /**
  * Matrix4
  */
@@ -481,11 +484,11 @@ class Matrix4 extends Float32Array {
     return this;
   }
 
-  public compose(position: number[], quaternion: number[], scale: number[]) {
-    const x = quaternion[0],
-      y = quaternion[1],
-      z = quaternion[2],
-      w = quaternion[3];
+  public compose(position: Vector3, quaternion: Quaternion, scale: Vector3) {
+    const x = quaternion.x,
+      y = quaternion.y,
+      z = quaternion.z,
+      w = quaternion.w;
     const x2 = x + x,
       y2 = y + y,
       z2 = z + z;
@@ -499,9 +502,9 @@ class Matrix4 extends Float32Array {
       wy = w * y2,
       wz = w * z2;
 
-    const sx = scale[0],
-      sy = scale[1],
-      sz = scale[2];
+    const sx = scale.x,
+      sy = scale.y,
+      sz = scale.z;
 
     this[0] = (1 - (yy + zz)) * sx;
     this[1] = (xy + wz) * sx;
@@ -518,9 +521,9 @@ class Matrix4 extends Float32Array {
     this[10] = (1 - (xx + yy)) * sz;
     this[11] = 0;
 
-    this[12] = position[0];
-    this[13] = position[1];
-    this[14] = position[2];
+    this[12] = position.x;
+    this[13] = position.y;
+    this[14] = position.z;
     this[15] = 1;
 
     return this;

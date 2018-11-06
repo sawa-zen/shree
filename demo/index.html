@@ -90,7 +90,7 @@ body {
     var render = function() {
       count += 3;
       var rad = (count % 360) * Math.PI / 180;
-      mesh.rotation.y = rad * -3;
+      mesh.rotation.x = rad;
       mesh.position.x = Math.sin(rad) * 3;
       mesh.position.y = Math.cos(rad) * 3;
       renderer.render(scene);

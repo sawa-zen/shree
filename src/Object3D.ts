@@ -1,52 +1,72 @@
+import EventEmitter from 'eventemitter3';
 import { getUniqueStr } from './utils';
 import Matrix4 from './Matrix4';
 import Vector3 from './Vector3';
+import Quaternion from './Quaternion';
 
 /**
  * Object3D
  */
-class Object3D {
-  private _id: string = getUniqueStr();
+class Object3D extends EventEmitter {
   get id() {
     return this._id;
   }
-
-  private _position: Vector3 = new Vector3();
   get position() {
     return this._position;
   }
-
-  private _up: Vector3 = new Vector3(0, 1, 0);
   get up() {
     return this._up;
   }
-
-  private _rotation: Vector3 = new Vector3();
+  get scale() {
+    return this._scale;
+  }
   get rotation() {
     return this._rotation;
   }
-
-  private _parent: Object3D | null = null;
+  get quaternion() {
+    return this._quaternion;
+  }
   get parent(): Object3D | null {
     return this._parent;
   }
   set parent(obj: Object3D | null) {
     this._parent = obj;
   }
-
-  private _children: Object3D[] = [];
   get children() {
     return this._children;
   }
-
-  private _matrix: Matrix4 = new Matrix4();
   get matrix() {
     return this._matrix;
   }
-
-  private _matrixWorld: Matrix4 = new Matrix4();
   get matrixWorld() {
     return this._matrixWorld;
+  }
+  private _id: string = getUniqueStr();
+
+  private _position: Vector3 = new Vector3();
+
+  private _up: Vector3 = new Vector3(0, 1, 0);
+
+  private _scale: Vector3 = new Vector3(1, 1, 1);
+
+  private _rotation: Vector3 = new Vector3();
+
+  private _quaternion: Quaternion = new Quaternion();
+
+  private _parent: Object3D | null = null;
+
+  private _children: Object3D[] = [];
+
+  private _matrix: Matrix4 = new Matrix4();
+
+  private _matrixWorld: Matrix4 = new Matrix4();
+
+  private _matrixWorldNeedsUpdate: boolean = false;
+
+  constructor() {
+    super();
+
+    this.rotation.on('change', this._onChangeRotation);
   }
 
   public add(obj: Object3D) {
@@ -55,23 +75,28 @@ class Object3D {
   }
 
   public updateMatrix() {
-    this._matrix.identity();
-    this._matrix.rotate(this.rotation.x, [1, 0, 0]);
-    this._matrix.rotate(this.rotation.y, [0, 1, 0]);
-    this._matrix.rotate(this.rotation.z, [0, 0, 1]);
-    this._matrix.translate([this.position.x, this.position.y, this.position.z]);
+    this._matrix.compose(
+      this._position,
+      this._quaternion,
+      this._scale
+    );
+    this._matrixWorldNeedsUpdate = true;
   }
 
   public updateMatrixWorld() {
     this.updateMatrix();
 
-    if (this._parent) {
-      this._matrixWorld.multiplyMatrices(
-        this._parent.matrixWorld,
-        this._matrix
-      );
-    } else {
-      this._matrixWorld.copy(this.matrix);
+    if (this._matrixWorldNeedsUpdate) {
+      if (this._parent) {
+        this._matrixWorld.multiplyMatrices(
+          this._parent.matrixWorld,
+          this._matrix
+        );
+      } else {
+        this._matrixWorld.copy(this.matrix);
+      }
+
+      this._matrixWorldNeedsUpdate = false;
     }
 
     // update children
@@ -80,6 +105,10 @@ class Object3D {
       children[i].updateMatrixWorld();
     }
   }
+
+  private _onChangeRotation = () => {
+    this._quaternion.setFromEuler(this._rotation);
+  };
 }
 
 export default Object3D;
