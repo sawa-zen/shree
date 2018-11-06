@@ -1,5 +1,6 @@
 import { getUniqueStr } from './utils';
 import Matrix4 from './Matrix4';
+import Vector3 from './Vector3';
 
 /**
  * Object3D
@@ -10,17 +11,17 @@ class Object3D {
     return this._id;
   }
 
-  private _position: number[] = [0.0, 0.0, 0.0];
+  private _position: Vector3 = new Vector3();
   get position() {
     return this._position;
   }
 
-  private _up: number[] = [0, 1, 0];
+  private _up: Vector3 = new Vector3(0, 1, 0);
   get up() {
     return this._up;
   }
 
-  private _rotation: number[] = [0, 0, 0];
+  private _rotation: Vector3 = new Vector3();
   get rotation() {
     return this._rotation;
   }
@@ -55,14 +56,10 @@ class Object3D {
 
   public updateMatrix() {
     this._matrix.identity();
-    this._matrix.rotate(this.rotation[0], [0, 1, 0]);
-    this._matrix.rotate(this.rotation[1], [1, 0, 0]);
-    this._matrix.rotate(this.rotation[2], [0, 0, 1]);
-    this._matrix.translate([
-      this.position[0],
-      this.position[1],
-      this.position[2]
-    ]);
+    this._matrix.rotate(this.rotation.x, [1, 0, 0]);
+    this._matrix.rotate(this.rotation.y, [0, 1, 0]);
+    this._matrix.rotate(this.rotation.z, [0, 0, 1]);
+    this._matrix.translate([this.position.x, this.position.y, this.position.z]);
   }
 
   public updateMatrixWorld() {

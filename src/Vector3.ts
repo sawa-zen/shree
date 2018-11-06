@@ -22,6 +22,12 @@ class Vector3 {
   set z(value) {
     this._z = value;
   }
+
+  constructor(x: number = 0, y: number = 0, z: number = 0) {
+    this._x = x;
+    this._y = y;
+    this._z = z;
+  }
 }
 
 export default Vector3;
