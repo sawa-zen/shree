@@ -41,6 +41,9 @@ class Object3D extends EventEmitter {
   get matrixWorld() {
     return this._matrixWorld;
   }
+  get modelViewMatrix() {
+    return this._modelViewMatrix;
+  }
   private _id: string = getUniqueStr();
 
   private _position: Vector3 = new Vector3();
@@ -60,6 +63,8 @@ class Object3D extends EventEmitter {
   private _matrix: Matrix4 = new Matrix4();
 
   private _matrixWorld: Matrix4 = new Matrix4();
+
+  private _modelViewMatrix: Matrix4 = new Matrix4();
 
   private _matrixWorldNeedsUpdate: boolean = false;
 

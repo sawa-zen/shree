@@ -528,6 +528,56 @@ class Matrix4 extends Float32Array {
 
     return this;
   }
+
+  public getInverse(mat: Matrix4) {
+    const a = mat[0],
+      b = mat[1],
+      c = mat[2],
+      d = mat[3],
+      e = mat[4],
+      f = mat[5],
+      g = mat[6],
+      h = mat[7],
+      i = mat[8],
+      j = mat[9],
+      k = mat[10],
+      l = mat[11],
+      m = mat[12],
+      n = mat[13],
+      o = mat[14],
+      p = mat[15],
+      q = a * f - b * e,
+      r = a * g - c * e,
+      s = a * h - d * e,
+      t = b * g - c * f,
+      u = b * h - d * f,
+      v = c * h - d * g,
+      w = i * n - j * m,
+      x = i * o - k * m,
+      y = i * p - l * m,
+      z = j * o - k * n,
+      A = j * p - l * n,
+      B = k * p - l * o,
+      ivd = 1 / (q * B - r * A + s * z + t * y - u * x + v * w);
+    this[0] = (f * B - g * A + h * z) * ivd;
+    this[1] = (-b * B + c * A - d * z) * ivd;
+    this[2] = (n * v - o * u + p * t) * ivd;
+    this[3] = (-j * v + k * u - l * t) * ivd;
+    this[4] = (-e * B + g * y - h * x) * ivd;
+    this[5] = (a * B - c * y + d * x) * ivd;
+    this[6] = (-m * v + o * s - p * r) * ivd;
+    this[7] = (i * v - k * s + l * r) * ivd;
+    this[8] = (e * A - f * y + h * w) * ivd;
+    this[9] = (-a * A + b * y - d * w) * ivd;
+    this[10] = (m * u - n * s + p * q) * ivd;
+    this[11] = (-i * u + j * s - l * q) * ivd;
+    this[12] = (-e * z + f * x - g * w) * ivd;
+    this[13] = (a * z - b * x + c * w) * ivd;
+    this[14] = (-m * t + n * r - o * q) * ivd;
+    this[15] = (i * t - j * r + k * q) * ivd;
+
+    return this;
+  }
 }
 
 export default Matrix4;

@@ -10,11 +10,13 @@
     uniform   mat4 mMatrix;
     uniform   mat4 vMatrix;
     uniform   mat4 pMatrix;
+    uniform   mat4 mvMatrix;
     varying   vec4 vColor;
 
     void main(void){
         vColor = color;
-        gl_Position = pMatrix * vMatrix * mMatrix * vec4(position, 1.0);
+        vec4 mvPosition = mvMatrix * vec4(position, 1.0);
+        gl_Position = pMatrix * mvPosition;
     }
   </script>
   <script type="x-shader/x-fragment" id="fs">
@@ -84,16 +86,24 @@ body {
     });
 
     var mesh = new SHREE.Mesh(geometry, material);
-    scene.add(mesh);
+
+    var group = new SHREE.Object3D();
+    group.add(mesh);
+    scene.add(group);
+
+    var camera = new SHREE.Camera();
+    camera.position.z = 10;
 
     var count = 0;
     var render = function() {
-      count += 3;
+      count += 2;
       var rad = (count % 360) * Math.PI / 180;
-      mesh.rotation.x = rad;
-      mesh.position.x = Math.sin(rad) * 3;
-      mesh.position.y = Math.cos(rad) * 3;
-      renderer.render(scene);
+      mesh.scale.x = mesh.scale.y = mesh.scale.z = Math.abs(Math.sin(rad)) * 0.8 + 0.2;
+      mesh.rotation.y = rad * 4;
+      mesh.position.x = Math.sin(rad) * 5;
+      mesh.position.y = Math.cos(rad) * 5;
+      group.rotation.y = rad;
+      renderer.render(scene, camera);
       requestAnimationFrame(render);
     }
 

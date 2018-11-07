@@ -2,6 +2,7 @@ import Matrix4 from './Matrix4';
 import Scene from './Scene';
 import Mesh from './Mesh';
 import Object3D from './Object3D';
+import Camera from './Camera';
 import {
   getContext,
   createProgram,
@@ -10,7 +11,7 @@ import {
   switchBlending,
   switchCulling,
   drawFace,
-  clearColor,
+  clearColor
 } from './utils';
 
 interface AttributesInfo {
@@ -18,7 +19,7 @@ interface AttributesInfo {
     vbo: WebGLBuffer;
     attrLoc: GLint;
     stride: number;
-  }
+  };
 }
 
 interface UniformsInfo {
@@ -33,13 +34,12 @@ interface RenderItem {
 }
 
 class Renderer {
+  public _gl: WebGLRenderingContext;
+  public _renderList: RenderItem[] = [];
+  public _vMatrix = new Matrix4();
+  public _pMatrix = new Matrix4();
 
-  _gl: WebGLRenderingContext;
-  _renderList: RenderItem[] = [];
-  _vMatrix = new Matrix4();
-  _pMatrix = new Matrix4();
-
-  _domElement: HTMLCanvasElement = document.createElement('canvas');
+  public _domElement: HTMLCanvasElement = document.createElement('canvas');
   get domElement() {
     return this._domElement;
   }
@@ -49,30 +49,19 @@ class Renderer {
     this._gl = getContext(this._domElement);
   }
 
-  setSize(w: number, h: number) {
+  public setSize(w: number, h: number) {
     this._domElement!.width = w;
     this._domElement!.height = h;
     this._gl.viewport(0, 0, this._gl.canvas.width, this._gl.canvas.height);
     this._pMatrix.perspective(90, w / h, 0.1, 100);
   }
 
-  render(scene: Scene) {
+  public render(scene: Scene, camera: Camera) {
     // canvasをクリア
     clearColor(this._gl);
 
-    // ビュー座標変換行列
-    const camera = {
-      position: [0.0, 0.0, 10.0],
-      center: [0, 0, 0],
-      up: [0, 1, 0]
-    };
-    this._vMatrix.lookAt(
-      camera.position,
-      camera.center,
-      camera.up
-    );
-
     scene.updateMatrixWorld();
+    camera.updateMatrixWorld();
 
     if (scene.needsUpdate) {
       this._renderList = [];
@@ -82,20 +71,20 @@ class Renderer {
 
     // オブジェクトを描画する
     this._renderList.forEach(renderItem => {
-      this._renderObj(renderItem);
+      this._renderObj(renderItem, camera);
     });
 
     // コンテキストの再描画
     this._gl.flush();
   }
 
-  _projectObject(obj: Object3D | Mesh) {
+  public _projectObject(obj: Object3D | Mesh) {
     if (obj instanceof Mesh) {
       // プログラムオブジェクトの生成とリンク
       const program = createProgram(
         this._gl,
         obj.material.vertexShader,
-        obj.material.fragmentShader,
+        obj.material.fragmentShader
       );
 
       // アトリビュートを登録
@@ -105,7 +94,7 @@ class Renderer {
         const attributeInfo = {
           vbo: createVbo(this._gl, attribute.verticies),
           attrLoc: this._gl.getAttribLocation(program, name),
-          stride: attribute.stride,
+          stride: attribute.stride
         };
         attributes[name] = attributeInfo;
       });
@@ -120,7 +109,7 @@ class Renderer {
         obj,
         program,
         attributes,
-        uniforms,
+        uniforms
       };
       this._renderList.push(renderItem);
     }
@@ -130,13 +119,18 @@ class Renderer {
     });
   }
 
-  _renderObj(renderItem: RenderItem) {
+  public _renderObj(renderItem: RenderItem, camera: Camera) {
     const obj = renderItem.obj;
     const prg = renderItem.program;
     const attributes = renderItem.attributes;
     const uniforms = renderItem.uniforms;
     const geometry = obj.geometry;
     const material = obj.material;
+
+    obj.modelViewMatrix.multiplyMatrices(
+      camera.matrixWorldInverse,
+      obj.matrixWorld
+    );
 
     Object.keys(attributes).forEach(name => {
       const attribute = attributes[name];
@@ -147,7 +141,9 @@ class Renderer {
         attribute.attrLoc,
         attribute.stride,
         this._gl.FLOAT,
-        false, 0, 0
+        false,
+        0,
+        0
       );
       // バッファを開放
       this._gl.bindBuffer(this._gl.ARRAY_BUFFER, null);
@@ -157,9 +153,10 @@ class Renderer {
     this._gl.useProgram(prg);
 
     // uniformの値を反映
-    material.uniforms.mMatrix.value = obj.matrixWorld.multiply(obj.matrix);
-    material.uniforms.vMatrix.value = this._vMatrix;
+    material.uniforms.mMatrix.value = obj.matrix;
+    material.uniforms.vMatrix.value = camera.matrixWorldInverse;
     material.uniforms.pMatrix.value = this._pMatrix;
+    material.uniforms.mvMatrix.value = obj.modelViewMatrix;
     Object.keys(uniforms).forEach(name => {
       const uniformLoc = uniforms[name];
       const uniform = material.uniforms[name];

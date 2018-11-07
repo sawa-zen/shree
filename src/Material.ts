@@ -2,7 +2,7 @@ import Matrix4 from './Matrix4';
 import { Side } from './utils';
 
 interface Uniform {
-  type: 'v4';     // TODO increase
+  type: 'v4'; // TODO increase
   value: Matrix4; // TODO increase
 }
 
@@ -11,7 +11,7 @@ interface Uniforms {
 }
 
 enum Blending {
-  NO = 'BLENDING_NO',
+  NO = 'BLENDING_NO'
 }
 
 interface Props {
@@ -24,45 +24,49 @@ interface Props {
 }
 
 class Material {
-  _uniforms: Uniforms = {
+  public _uniforms: Uniforms = {
     mMatrix: {
       type: 'v4',
-      value: new Matrix4(),
+      value: new Matrix4()
     },
     vMatrix: {
       type: 'v4',
-      value: new Matrix4(),
+      value: new Matrix4()
     },
     pMatrix: {
       type: 'v4',
-      value: new Matrix4(),
+      value: new Matrix4()
     },
+    mvMatrix: {
+      type: 'v4',
+      value: new Matrix4()
+    }
   };
   get uniforms() {
     return this._uniforms;
   }
 
-  _vertexShader: string;
+  public _vertexShader: string;
   get vertexShader() {
     return this._vertexShader;
   }
 
-  _fragmentShader: string;
+  public _fragmentShader: string;
   get fragmentShader() {
     return this._fragmentShader;
   }
 
-  _transparent: boolean = false;
+  public _transparent: boolean = false;
   get transparent() {
     return this._transparent;
   }
 
-  _side: Side = Side.FRONT;
+  public _side: Side = Side.FRONT;
   get side() {
     return this._side;
   }
 
-  _blending: Blending = Blending.NO;
+  public _blending: Blending = Blending.NO;
   get blending() {
     return this._blending;
   }
@@ -70,7 +74,7 @@ class Material {
   constructor(props: Props) {
     this._uniforms = {
       ...this._uniforms,
-      ...props.uniforms,
+      ...props.uniforms
     };
     this._vertexShader = props.vertexShader;
     this._fragmentShader = props.fragmentShader;

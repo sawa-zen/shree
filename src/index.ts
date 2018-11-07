@@ -7,6 +7,7 @@ import Mesh from './Mesh';
 import Scene from './Scene';
 import Vector3 from './Vector3';
 import Quaternion from './Quaternion';
+import Camera from './Camera';
 
 export default {
   Renderer,
@@ -17,5 +18,6 @@ export default {
   Mesh,
   Scene,
   Vector3,
-  Quaternion
+  Quaternion,
+  Camera
 };
