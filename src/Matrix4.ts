@@ -198,16 +198,16 @@ class Matrix4 extends Float32Array {
   /**
    * ビュー変換行列を生成する
    */
-  public lookAt(eye: number[], center: number[], up: number[]) {
-    const eyeX = eye[0],
-      eyeY = eye[1],
-      eyeZ = eye[2],
-      upX = up[0],
-      upY = up[1],
-      upZ = up[2],
-      centerX = center[0],
-      centerY = center[1],
-      centerZ = center[2];
+  public lookAt(eye: Vector3, center: Vector3, up: Vector3) {
+    const eyeX = eye.x,
+      eyeY = eye.y,
+      eyeZ = eye.z,
+      upX = up.x,
+      upY = up.y,
+      upZ = up.z,
+      centerX = center.x,
+      centerY = center.y,
+      centerZ = center.z;
 
     if (eyeX === centerX && eyeY === centerY && eyeZ === centerZ) {
       this.identity();
@@ -215,9 +215,9 @@ class Matrix4 extends Float32Array {
     }
 
     let x0, x1, x2, y0, y1, y2, z0, z1, z2, l;
-    z0 = eyeX - center[0];
-    z1 = eyeY - center[1];
-    z2 = eyeZ - center[2];
+    z0 = eyeX - center.x;
+    z1 = eyeY - center.y;
+    z2 = eyeZ - center.z;
     l = 1 / Math.sqrt(z0 * z0 + z1 * z1 + z2 * z2);
     z0 *= l;
     z1 *= l;

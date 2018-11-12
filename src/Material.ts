@@ -1,13 +1,18 @@
 import Matrix4 from './Matrix4';
 import { Side } from './utils';
 
-interface Uniform {
-  type: 'v4'; // TODO increase
-  value: Matrix4; // TODO increase
+interface V4Uniform {
+  type: 'v4';
+  value: Matrix4;
+}
+
+interface TUniform {
+  type: 't';
+  value: WebGLTexture | null;
 }
 
 interface Uniforms {
-  [name: string]: Uniform;
+  [name: string]: V4Uniform | TUniform;
 }
 
 enum Blending {
@@ -21,10 +26,11 @@ interface Props {
   transparent?: boolean;
   side: Side;
   blending: Blending;
+  map: HTMLImageElement;
 }
 
 class Material {
-  public _uniforms: Uniforms = {
+  private _uniforms: Uniforms = {
     mMatrix: {
       type: 'v4',
       value: new Matrix4()
@@ -46,29 +52,34 @@ class Material {
     return this._uniforms;
   }
 
-  public _vertexShader: string;
+  private _vertexShader: string;
   get vertexShader() {
     return this._vertexShader;
   }
 
-  public _fragmentShader: string;
+  private _fragmentShader: string;
   get fragmentShader() {
     return this._fragmentShader;
   }
 
-  public _transparent: boolean = false;
+  private _transparent: boolean = false;
   get transparent() {
     return this._transparent;
   }
 
-  public _side: Side = Side.FRONT;
+  private _side: Side = Side.FRONT;
   get side() {
     return this._side;
   }
 
-  public _blending: Blending = Blending.NO;
+  private _blending: Blending = Blending.NO;
   get blending() {
     return this._blending;
+  }
+
+  private _map?: HTMLImageElement;
+  get map() {
+    return this._map;
   }
 
   constructor(props: Props) {
@@ -81,6 +92,13 @@ class Material {
     this._transparent = props.transparent || false;
     this._side = props.side || this._side;
     this._blending = props.blending || 'BLENDING_NO';
+    this._map = props.map;
+    if (this._map) {
+      this._uniforms.texture = {
+        value: null,
+        type: 't'
+      };
+    }
   }
 }
 
