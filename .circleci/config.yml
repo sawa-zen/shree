@@ -49,9 +49,8 @@ jobs:
       - run:
           name: Publish package
           command: |
-            lastTag=$(git describe --tags $(git rev-list --tags --max-count=1))
-            echo "Bumping version to new tag: ${lastTag}"
-            npm --no-git-tag-version version $lastTag
+            echo "Bumping version to new tag: ${CIRCLE_TAG}"
+            npm --no-git-tag-version version $CIRCLE_TAG
             npm publish
 
 workflows:
