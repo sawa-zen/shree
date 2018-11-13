@@ -48,7 +48,11 @@ jobs:
           command: echo "//registry.npmjs.org/:_authToken=$npm_TOKEN" > ~/repo/.npmrc
       - run:
           name: Publish package
-          command: npm publish
+          command: |
+            lastTag=$(git describe --tags $(git rev-list --tags --max-count=1))
+            echo "Bumping version to new tag: ${lastTag}"
+            npm --no-git-tag-version version $lastTag
+            npm publish
 
 workflows:
   version: 2
