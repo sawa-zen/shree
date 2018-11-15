@@ -173,7 +173,7 @@ class Renderer {
       const uniform = material.uniforms[name];
       switch (uniform.type) {
         case 'v4':
-          this._gl.uniformMatrix4fv(uniformLoc, false, uniform.value);
+          this._gl.uniformMatrix4fv(uniformLoc, false, uniform.value.el);
           break;
         case 't':
           this._gl.activeTexture(this._gl.TEXTURE0);
