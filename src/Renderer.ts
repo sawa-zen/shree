@@ -27,21 +27,26 @@ interface UniformsInfo {
   [name: string]: WebGLUniformLocation;
 }
 
+interface Texture {
+  slot: number;
+  image: HTMLImageElement;
+  webglTexture: WebGLTexture;
+}
+
 interface RenderItem {
   obj: Mesh;
   program: WebGLProgram;
   attributes: AttributesInfo;
   uniforms: UniformsInfo;
-  texture: WebGLTexture | null;
 }
 
 class Renderer {
-  public _gl: WebGLRenderingContext;
-  public _renderList: RenderItem[] = [];
-  public _vMatrix = new Matrix4();
-  public _pMatrix = new Matrix4();
+  private _gl: WebGLRenderingContext;
+  private _renderList: RenderItem[] = [];
+  private _pMatrix = new Matrix4();
+  private _textures: Texture[] = [];
 
-  public _domElement: HTMLCanvasElement = document.createElement('canvas');
+  private _domElement: HTMLCanvasElement = document.createElement('canvas');
   get domElement() {
     return this._domElement;
   }
@@ -80,7 +85,7 @@ class Renderer {
     this._gl.flush();
   }
 
-  public _projectObject(obj: Object3D | Mesh) {
+  private _projectObject(obj: Object3D | Mesh) {
     if (obj instanceof Mesh) {
       // プログラムオブジェクトの生成とリンク
       const program = createProgram(
@@ -104,20 +109,23 @@ class Renderer {
       // ユニフォームを登録
       const uniforms: UniformsInfo = {};
       Object.keys(obj.material.uniforms).forEach(name => {
+        const originUniform = obj.material.uniforms[name];
         uniforms[name] = this._gl.getUniformLocation(program, name)!;
-      });
 
-      const map = obj.material.map;
-      const texture = map
-        ? createTexture(this._gl, map, this._gl.TEXTURE0)
-        : null;
+        // TODO uniformでtのタイプのときはテクスチャを登録する
+        if (originUniform.type === 't') {
+          const slot = this._gl.TEXTURE0;
+          const image: HTMLImageElement = originUniform.value!;
+          const webglTexture = createTexture(this._gl, image, slot);
+          this._textures.push({ slot, image, webglTexture });
+        }
+      });
 
       const renderItem: RenderItem = {
         obj,
         program,
         attributes,
-        uniforms,
-        texture
+        uniforms
       };
 
       this._renderList.push(renderItem);
@@ -128,12 +136,11 @@ class Renderer {
     });
   }
 
-  public _renderObj(renderItem: RenderItem, camera: Camera) {
+  private _renderObj(renderItem: RenderItem, camera: Camera) {
     const obj = renderItem.obj;
     const prg = renderItem.program;
     const attributes = renderItem.attributes;
     const uniforms = renderItem.uniforms;
-    const texture = renderItem.texture;
     const geometry = obj.geometry;
     const material = obj.material;
 
@@ -167,7 +174,6 @@ class Renderer {
     material.uniforms.vMatrix.value = camera.matrixWorldInverse;
     material.uniforms.pMatrix.value = this._pMatrix;
     material.uniforms.mvMatrix.value = obj.modelViewMatrix;
-    material.uniforms.texture.value = texture;
     Object.keys(uniforms).forEach(name => {
       const uniformLoc = uniforms[name];
       const uniform = material.uniforms[name];
@@ -176,9 +182,14 @@ class Renderer {
           this._gl.uniformMatrix4fv(uniformLoc, false, uniform.value.el);
           break;
         case 't':
-          this._gl.activeTexture(this._gl.TEXTURE0);
-          this._gl.bindTexture(this._gl.TEXTURE_2D, texture);
-          this._gl.uniform1i(uniformLoc, 0);
+          const texture = this._textures.find(t => {
+            return t.image.src === uniform.value.src;
+          });
+          if (texture) {
+            this._gl.activeTexture(this._gl.TEXTURE0);
+            this._gl.bindTexture(this._gl.TEXTURE_2D, texture.webglTexture);
+            this._gl.uniform1i(uniformLoc, 0);
+          }
           break;
       }
     });

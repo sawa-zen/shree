@@ -8,7 +8,7 @@ interface V4Uniform {
 
 interface TUniform {
   type: 't';
-  value: WebGLTexture | null;
+  value: HTMLImageElement;
 }
 
 interface Uniforms {
@@ -26,7 +26,6 @@ interface Props {
   transparent?: boolean;
   side: Side;
   blending: Blending;
-  map: HTMLImageElement;
 }
 
 class Material {
@@ -92,13 +91,6 @@ class Material {
     this._transparent = props.transparent || false;
     this._side = props.side || this._side;
     this._blending = props.blending || 'BLENDING_NO';
-    this._map = props.map;
-    if (this._map) {
-      this._uniforms.texture = {
-        value: null,
-        type: 't'
-      };
-    }
   }
 }
 

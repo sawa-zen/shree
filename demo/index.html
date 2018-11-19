@@ -105,7 +105,12 @@ body {
       var material = new SHREE.Material({
         vertexShader: document.getElementById('vs').text,
         fragmentShader: document.getElementById('fs').text,
-        map: img
+        uniforms: {
+          texture: {
+            type: 't',
+            value: img,
+          }
+        }
       });
 
       var mesh = new SHREE.Mesh(geometry, material);

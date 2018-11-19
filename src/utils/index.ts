@@ -116,7 +116,7 @@ export const createIbo = (
  */
 export const createTexture = (
   gl: WebGLRenderingContext,
-  map: HTMLImageElement,
+  image: HTMLImageElement,
   textureNumber: number
 ): WebGLTexture => {
   // テクスチャオブジェクトの生成
@@ -126,7 +126,7 @@ export const createTexture = (
   // テクスチャをバインドする
   gl.bindTexture(gl.TEXTURE_2D, tex);
   // テクスチャへイメージを適用
-  gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, map);
+  gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
   // ミップマップを生成
   gl.generateMipmap(gl.TEXTURE_2D);
   // テクスチャのバインドを無効化
