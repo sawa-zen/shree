@@ -112,7 +112,7 @@ class Renderer {
         const originUniform = obj.material.uniforms[name];
         uniforms[name] = this._gl.getUniformLocation(program, name)!;
 
-        // TODO uniformでtのタイプのときはテクスチャを登録する
+        // uniformでtのタイプのときはテクスチャを登録する
         if (originUniform.type === 't') {
           const slot = this._gl.TEXTURE0;
           const image: HTMLImageElement = originUniform.value!;
