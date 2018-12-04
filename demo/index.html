@@ -31,8 +31,7 @@
 
     void main(void){
       vec4 smpColor = texture2D(texture, vTextureCode);
-      // gl_FragColor = vColor * smpColor;
-      gl_FragColor = smpColor;
+      gl_FragColor = vColor + smpColor;
     }
   </script>
 </head>
