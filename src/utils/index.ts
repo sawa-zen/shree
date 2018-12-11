@@ -7,8 +7,12 @@ export enum Side {
 export const getContext = (
   canvas: HTMLCanvasElement
 ): WebGLRenderingContext => {
+  const params = {
+    antialias: false
+  };
   const gl: WebGLRenderingContext =
-    canvas.getContext('webgl')! || canvas.getContext('experimental-webgl')!;
+    canvas.getContext('webgl', params)! ||
+    canvas.getContext('experimental-webgl', params)!;
   return gl;
 };
 

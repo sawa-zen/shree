@@ -47,6 +47,16 @@ body {
   width: 100%;
   height: 100%;
 }
+
+#wrapper > canvas {
+  vertical-align: bottom;
+
+  -ms-interpolation-mode: nearest-neighbor;   /* IE8+ */
+  image-rendering: -webkit-optimize-contrast; /* Safari (WebKit) */
+  image-rendering: -moz-crisp-edges;          /* Firefox (Gecko) */
+  image-rendering: -o-crisp-edges;            /* Opera 12.x */
+  image-rendering: pixelated;                 /* Chrome 41+, Opera 29+ (CSS4) */
+}
 </style>
 <body>
   <div id="wrapper"></div>
@@ -60,6 +70,7 @@ body {
     var main = function() {
       var wrapper = document.getElementById('wrapper');
       var renderer = new SHREE.Renderer();
+      renderer.pixelRatio = 1 / 4;
       wrapper.appendChild(renderer.domElement);
       renderer.setSize(wrapper.clientWidth, wrapper.clientHeight);
 
@@ -123,13 +134,10 @@ body {
 
       var count = 0;
       var render = function() {
-        count += 2;
+        count += 1;
         var rad = (count % 360) * Math.PI / 180;
-        mesh.scale.x = mesh.scale.y = mesh.scale.z = Math.abs(Math.sin(rad)) * 0.8 + 0.2;
-        mesh.rotation.y = rad * 4;
-        mesh.position.x = Math.sin(rad) * 5;
-        mesh.position.y = Math.cos(rad) * 5;
-        group.rotation.y = rad;
+        mesh.rotation.y = rad;
+        group.position.z = Math.cos(rad) * 5;
         renderer.render(scene, camera);
         requestAnimationFrame(render);
       }

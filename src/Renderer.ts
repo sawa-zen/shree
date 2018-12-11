@@ -45,6 +45,16 @@ class Renderer {
   private _renderList: RenderItem[] = [];
   private _pMatrix = new Matrix4();
   private _textures: Texture[] = [];
+  private _width: number = 400;
+  private _height: number = 300;
+
+  private _pixelRatio: number = 2;
+  set pixelRatio(value) {
+    this._pixelRatio = value;
+  }
+  get pixelRatio() {
+    return this._pixelRatio;
+  }
 
   private _domElement: HTMLCanvasElement = document.createElement('canvas');
   get domElement() {
@@ -54,13 +64,23 @@ class Renderer {
   constructor() {
     // gl
     this._gl = getContext(this._domElement);
+    this.setSize(this._width, this._height);
   }
 
   public setSize(w: number, h: number) {
-    this._domElement!.width = w;
-    this._domElement!.height = h;
-    this._gl.viewport(0, 0, this._gl.canvas.width, this._gl.canvas.height);
-    this._pMatrix.perspective(90, w / h, 0.1, 100);
+    const canvasW = w * this._pixelRatio;
+    const canvasH = h * this._pixelRatio;
+
+    this._width = w;
+    this._height = h;
+
+    this._domElement!.style.width = this._width + 'px';
+    this._domElement!.style.height = this._height + 'px';
+
+    this._domElement!.width = canvasW;
+    this._domElement!.height = canvasH;
+    this._gl.viewport(0, 0, canvasW, canvasH);
+    this._pMatrix.perspective(90, canvasW / canvasH, 0.1, 100);
   }
 
   public render(scene: Scene, camera: Camera) {
