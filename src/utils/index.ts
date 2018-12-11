@@ -11,8 +11,8 @@ export const getContext = (
     antialias: false
   };
   const gl: WebGLRenderingContext =
-    canvas.getContext('webgl', params)! ||
-    canvas.getContext('experimental-webgl', params)!;
+    (canvas.getContext('webgl', params)! as WebGLRenderingContext) ||
+    (canvas.getContext('experimental-webgl', params)! as WebGLRenderingContext);
   return gl;
 };
 
