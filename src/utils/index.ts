@@ -5,14 +5,13 @@ export enum Side {
 }
 
 export const getContext = (
-  canvas: HTMLCanvasElement
+  canvas: HTMLCanvasElement,
+  attributes: WebGLContextAttributes = {}
 ): WebGLRenderingContext => {
-  const params = {
-    antialias: false
-  };
   const gl: WebGLRenderingContext =
-    (canvas.getContext('webgl', params)! as WebGLRenderingContext) ||
-    (canvas.getContext('experimental-webgl', params)! as WebGLRenderingContext);
+    canvas.getContext('webgl', attributes)! ||
+    canvas.getContext('experimental-webgl', attributes)!;
+
   return gl;
 };
 

@@ -69,7 +69,9 @@ body {
 
     var main = function() {
       var wrapper = document.getElementById('wrapper');
-      var renderer = new SHREE.Renderer();
+      var renderer = new SHREE.Renderer({
+        antialias: false,
+      });
       renderer.pixelRatio = 1 / 4;
       wrapper.appendChild(renderer.domElement);
       renderer.setSize(wrapper.clientWidth, wrapper.clientHeight);

@@ -61,9 +61,8 @@ class Renderer {
     return this._domElement;
   }
 
-  constructor() {
-    // gl
-    this._gl = getContext(this._domElement);
+  constructor(attributes: WebGLContextAttributes = {}) {
+    this._gl = getContext(this._domElement, attributes);
     this.setSize(this._width, this._height);
   }
 
