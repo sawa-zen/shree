@@ -6,17 +6,14 @@
   <script src="/dist/shree.js"></script>
   <script type="x-shader/x-vertex" id="vs">
     attribute vec3 position;
-    attribute vec4 color;
     attribute vec2 textureCode;
     uniform mat4 mMatrix;
     uniform mat4 vMatrix;
     uniform mat4 pMatrix;
     uniform mat4 mvMatrix;
-    varying vec4 vColor;
     varying vec2 vTextureCode;
 
     void main(void){
-      vColor = color;
       vTextureCode = textureCode;
       vec4 mvPosition = mvMatrix * vec4(position, 1.0);
       gl_Position = pMatrix * mvPosition;
@@ -25,13 +22,10 @@
   <script type="x-shader/x-fragment" id="fs">
     precision mediump float;
     uniform sampler2D texture;
-
-    varying vec4 vColor;
     varying vec2 vTextureCode;
 
     void main(void){
-      vec4 smpColor = texture2D(texture, vTextureCode);
-      gl_FragColor = vColor + smpColor;
+      gl_FragColor = texture2D(texture, vTextureCode);
     }
   </script>
 </head>
@@ -65,7 +59,7 @@ body {
     img.onload = function(event) {
       main();
     }
-    img.src = '/demo/map.jpg';
+    img.src = './uv_checker.png';
 
     var main = function() {
       var wrapper = document.getElementById('wrapper');
@@ -73,8 +67,8 @@ body {
         antialias: false,
       });
       renderer.pixelRatio = 1 / 4;
-      wrapper.appendChild(renderer.domElement);
       renderer.setSize(wrapper.clientWidth, wrapper.clientHeight);
+      wrapper.appendChild(renderer.domElement);
 
       var scene = new SHREE.Scene();
 
@@ -86,14 +80,6 @@ body {
         -1.0,  0.0, -1.0,
         -1.0,  0.0,  1.0,
          0.0, -1.5,  0.0,
-      ]);
-      geometry.addAttribute('color', 4, [
-        1.0, 0.0, 0.0, 1.0, // 赤
-        0.0, 1.0, 0.0, 1.0, // 緑
-        0.0, 0.0, 1.0, 1.0, // 青
-        1.0, 0.0, 1.0, 1.0, // 藍
-        0.0, 1.0, 1.0, 1.0, // 水
-        1.0, 1.0, 0.0, 1.0  // 黄
       ]);
       geometry.addAttribute('textureCode', 2, [
         1.0, 0.0,
@@ -132,14 +118,17 @@ body {
       scene.add(group);
 
       var camera = new SHREE.Camera();
+      camera.position.y = 2;
       camera.position.z = 7;
+      camera.rotation.x = -0.3;
 
       var count = 0;
       var render = function() {
         count += 1;
         var rad = (count % 360) * Math.PI / 180;
-        mesh.rotation.y = rad;
-        group.position.z = Math.cos(rad) * 5;
+        mesh.rotation.y = -rad * 3;
+        mesh.position.x = Math.sin(rad * 2) * 3;
+        mesh.position.z = Math.cos(rad * 2) * 3;
         renderer.render(scene, camera);
         requestAnimationFrame(render);
       }
