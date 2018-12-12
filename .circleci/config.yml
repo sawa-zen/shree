@@ -51,7 +51,7 @@ jobs:
           command: |
             echo "Bumping version to new tag: ${CIRCLE_TAG}"
             npm --no-git-tag-version version $CIRCLE_TAG
-            npm publish
+            npm publish --allow-same-version
 
 workflows:
   version: 2
