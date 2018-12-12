@@ -5,6 +5,7 @@ img.onload = function(event) {
 img.src = './uv_checker.png';
 
 var main = function() {
+  var count = 0;
 
   var wrapper = document.getElementById('wrapper');
 
@@ -90,7 +91,7 @@ var main = function() {
   var panel = new SHREE.Mesh(geometry2, material);
   group.add(panel);
 
-  var count = 0;
+  // 描画を始める
   var render = function() {
     count += 0.5;
     var rad = (count % 360) * Math.PI / 180;
@@ -101,6 +102,5 @@ var main = function() {
     renderer.render(scene, camera);
     requestAnimationFrame(render);
   }
-
   render();
 }
