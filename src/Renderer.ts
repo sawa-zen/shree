@@ -41,6 +41,18 @@ interface RenderItem {
 }
 
 class Renderer {
+  set pixelRatio(value) {
+    this._pixelRatio = value;
+  }
+  get pixelRatio() {
+    return this._pixelRatio;
+  }
+  get domElement() {
+    return this._domElement;
+  }
+  set clearColor(color: number[]) {
+    this._clearColor = color;
+  }
   private _gl: WebGLRenderingContext;
   private _renderList: RenderItem[] = [];
   private _pMatrix = new Matrix4();
@@ -49,17 +61,10 @@ class Renderer {
   private _height: number = 300;
 
   private _pixelRatio: number = 2;
-  set pixelRatio(value) {
-    this._pixelRatio = value;
-  }
-  get pixelRatio() {
-    return this._pixelRatio;
-  }
 
   private _domElement: HTMLCanvasElement = document.createElement('canvas');
-  get domElement() {
-    return this._domElement;
-  }
+
+  private _clearColor: number[] = [0.0, 0.0, 0.0, 1.0];
 
   constructor(attributes: WebGLContextAttributes = {}) {
     this._gl = getContext(this._domElement, attributes);
@@ -84,7 +89,7 @@ class Renderer {
 
   public render(scene: Scene, camera: Camera) {
     // canvasをクリア
-    clearColor(this._gl);
+    clearColor(this._gl, this._clearColor);
 
     scene.updateMatrixWorld();
     camera.updateMatrixWorld();
