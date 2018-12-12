@@ -91,6 +91,7 @@ class Renderer {
     // canvasをクリア
     clearColor(this._gl, this._clearColor);
 
+    // ワールド変換座標を更新
     scene.updateMatrixWorld();
     camera.updateMatrixWorld();
 
@@ -109,6 +110,9 @@ class Renderer {
     this._gl.flush();
   }
 
+  /**
+   * 描画に必要なデータの生成をする
+   */
   private _projectObject(obj: Object3D | Mesh) {
     if (obj instanceof Mesh) {
       // プログラムオブジェクトの生成とリンク

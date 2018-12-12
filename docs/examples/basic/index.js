@@ -5,20 +5,36 @@ img.onload = function(event) {
 img.src = './uv_checker.png';
 
 var main = function() {
+
   var wrapper = document.getElementById('wrapper');
+
+  // レンダラー
   var renderer = new SHREE.Renderer({
     antialias: false,
   });
-  renderer.pixelRatio = 1 / 2;
+  renderer.pixelRatio = 1 / 4;
   renderer.setSize(wrapper.clientWidth, wrapper.clientHeight);
   renderer.clearColor = [0.3, 0.3, 0.3, 1.0];
   wrapper.appendChild(renderer.domElement);
 
+  // カメラ
+  var camera = new SHREE.Camera();
+
+  // シーン
   var scene = new SHREE.Scene();
 
+  // グループ
   var group = new SHREE.Object3D();
   scene.add(group);
 
+  // マテリアル
+  var material = new SHREE.Material({
+    vertexShader: document.getElementById('vs').text,
+    fragmentShader: document.getElementById('fs').text,
+    uniforms: { texture: { type: 't', value: img } }
+  });
+
+  // 八面体ジオメトリ
   var geometry1 = new SHREE.Geometry();
   geometry1.addAttribute('position', 3, [
      0.0,  1.5,  0.0,
@@ -47,16 +63,11 @@ var main = function() {
     5, 1, 4,
   ];
 
-  var material1 = new SHREE.Material({
-    vertexShader: document.getElementById('vs').text,
-    fragmentShader: document.getElementById('fs').text,
-    uniforms: {
-      texture: { type: 't', value: img }
-    }
-  });
-  var octahedral = new SHREE.Mesh(geometry1, material1);
+  // 八面体メッシュ
+  var octahedral = new SHREE.Mesh(geometry1, material);
   group.add(octahedral);
 
+  // パネルジオメトリ
   var geometry2 = new SHREE.Geometry();
   geometry2.addAttribute('position', 3, [
      -25.0, -1.5, -25.0,
@@ -74,17 +85,10 @@ var main = function() {
     2, 1, 0,
     3, 1, 2,
   ];
-  var material2 = new SHREE.Material({
-    vertexShader: document.getElementById('vs').text,
-    fragmentShader: document.getElementById('fs').text,
-    uniforms: {
-      texture: { type: 't', value: img }
-    }
-  });
-  var panel = new SHREE.Mesh(geometry2, material2);
-  group.add(panel);
 
-  var camera = new SHREE.Camera();
+  // パネルメッシュ
+  var panel = new SHREE.Mesh(geometry2, material);
+  group.add(panel);
 
   var count = 0;
   var render = function() {
