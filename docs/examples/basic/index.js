@@ -46,6 +46,7 @@ var main = function() {
     5, 4, 3,
     5, 1, 4,
   ];
+
   var material1 = new SHREE.Material({
     vertexShader: document.getElementById('vs').text,
     fragmentShader: document.getElementById('fs').text,
@@ -58,10 +59,10 @@ var main = function() {
 
   var geometry2 = new SHREE.Geometry();
   geometry2.addAttribute('position', 3, [
-     -10.0, -1.5, -10.0,
-      10.0, -1.5, -10.0,
-     -10.0, -1.5,  10.0,
-      10.0, -1.5,  10.0,
+     -25.0, -1.5, -25.0,
+      25.0, -1.5, -25.0,
+     -25.0, -1.5,  25.0,
+      25.0, -1.5,  25.0,
   ]);
   geometry2.addAttribute('textureCode', 2, [
     0.0, 0.0,
@@ -84,17 +85,15 @@ var main = function() {
   group.add(panel);
 
   var camera = new SHREE.Camera();
-  camera.position.y = 2;
-  camera.position.z = 7;
-  camera.rotation.x = -0.3;
 
   var count = 0;
   var render = function() {
-    count += 1;
+    count += 0.5;
     var rad = (count % 360) * Math.PI / 180;
-    octahedral.rotation.y = -rad * 3;
-    octahedral.position.x = Math.sin(rad * 2) * 3;
-    octahedral.position.z = Math.cos(rad * 2) * 3;
+    octahedral.rotation.y = -rad * 8;
+    octahedral.position.x = Math.sin(rad * 2) * 5;
+    octahedral.position.z = Math.cos(rad * 2) * 5;
+    camera.rotation.y = -rad;
     renderer.render(scene, camera);
     requestAnimationFrame(render);
   }

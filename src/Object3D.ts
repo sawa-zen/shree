@@ -74,11 +74,17 @@ class Object3D extends EventEmitter {
     this.rotation.on('change', this._onChangeRotation);
   }
 
+  /**
+   * 要素を追加する
+   */
   public add(obj: Object3D) {
     this._children.push(obj);
     obj.parent = this;
   }
 
+  /**
+   * ローカル変換行列を更新する
+   */
   public updateMatrix() {
     this._matrix.compose(
       this._position,
@@ -88,6 +94,9 @@ class Object3D extends EventEmitter {
     this._matrixWorldNeedsUpdate = true;
   }
 
+  /**
+   * ワールド座標を更新する
+   */
   public updateMatrixWorld() {
     this.updateMatrix();
 
