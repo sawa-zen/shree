@@ -41,6 +41,14 @@ var main = function() {
     -1.0,  0.0,  1.0,
      0.0, -1.5,  0.0,
   ]);
+  geometry1.addAttribute('color', 4, [
+    1.0, 0.0, 0.0, 1.0,
+    0.0, 1.0, 0.0, 1.0,
+    0.0, 0.0, 1.0, 1.0,
+    1.0, 1.0, 0.0, 1.0,
+    1.0, 0.0, 1.0, 1.0,
+    0.0, 1.0, 1.0, 1.0,
+  ]);
   geometry1.index = [
     0, 1, 2,
     0, 2, 3,
@@ -52,15 +60,24 @@ var main = function() {
     5, 1, 4,
   ];
 
+  // 八面体ポイント
+  var point = new SHREE.Point(geometry1, material);
+  point.position.x = 2;
+  group.add(point);
+
   // 八面体メッシュ
-  var octahedral = new SHREE.Point(geometry1, material);
-  group.add(octahedral);
+  var mesh = new SHREE.Mesh(geometry1, material);
+  mesh.position.x = -2;
+  group.add(mesh);
 
   // 描画を始める
   var render = function() {
     count += 0.5;
     var rad = (count % 360) * Math.PI / 180;
-    octahedral.rotation.y = -rad * 8;
+    point.rotation.x = -rad;
+    point.rotation.y = -rad;
+    mesh.rotation.x = -rad;
+    mesh.rotation.y = -rad;
     renderer.render(scene, camera);
     requestAnimationFrame(render);
   }
