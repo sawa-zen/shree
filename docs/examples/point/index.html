@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>SocketReaction</title>
+  <script src="/dist/shree.js"></script>
+  <script type="x-shader/x-vertex" id="vs">
+    attribute vec3 position;
+    uniform mat4 mMatrix;
+    uniform mat4 vMatrix;
+    uniform mat4 pMatrix;
+    uniform mat4 mvMatrix;
+
+    void main(void){
+      vec4 mvPosition = mvMatrix * vec4(position, 1.0);
+      gl_Position = pMatrix * mvPosition;
+      gl_PointSize = 6.0;
+    }
+  </script>
+  <script type="x-shader/x-fragment" id="fs">
+    precision mediump float;
+
+    void main(void){
+      gl_FragColor = vec4(1.0, 1.0, 1.0, 1.0);
+    }
+  </script>
+</head>
+<style>
+html,
+body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+#wrapper {
+  width: 100%;
+  height: 100%;
+}
+
+#wrapper > canvas {
+  vertical-align: bottom;
+
+  -ms-interpolation-mode: nearest-neighbor;   /* IE8+ */
+  image-rendering: -webkit-optimize-contrast; /* Safari (WebKit) */
+  image-rendering: -moz-crisp-edges;          /* Firefox (Gecko) */
+  image-rendering: -o-crisp-edges;            /* Opera 12.x */
+  image-rendering: pixelated;                 /* Chrome 41+, Opera 29+ (CSS4) */
+}
+</style>
+<body>
+  <div id="wrapper"></div>
+  <script type="text/javascript" src="./index.js"></script>
+</body>
+</html>

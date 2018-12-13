@@ -186,16 +186,18 @@ export const switchBlending = (
  * 面を描画
  */
 export const drawFace = (gl: WebGLRenderingContext, index: number[]) => {
-  if (index.length) {
-    const ibo = createIbo(gl, index);
-    // IBOをバインドして登録する
-    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, ibo);
-    // モデルの描画
-    gl.drawElements(gl.TRIANGLES, index.length, gl.UNSIGNED_SHORT, 0);
-  } else {
-    // モデルの描画
-    gl.drawArrays(gl.TRIANGLES, 0, 3);
-  }
+  const ibo = createIbo(gl, index);
+  // IBOをバインドして登録する
+  gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, ibo);
+  // モデルの描画
+  gl.drawElements(gl.TRIANGLES, index.length, gl.UNSIGNED_SHORT, 0);
+};
+
+/**
+ * ポイントを描画
+ */
+export const drawPoint = (gl: WebGLRenderingContext, verticies: number[]) => {
+  gl.drawArrays(gl.POINTS, 0, verticies.length / 3);
 };
 
 /**

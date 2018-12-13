@@ -4,6 +4,7 @@ import Object3D from './Object3D';
 import Geometry from './Geometry';
 import Material from './Material';
 import Mesh from './Mesh';
+import Point from './Point';
 import Scene from './Scene';
 import Vector3 from './Vector3';
 import Quaternion from './Quaternion';
@@ -16,6 +17,7 @@ export default {
   Geometry,
   Material,
   Mesh,
+  Point,
   Scene,
   Vector3,
   Quaternion,
