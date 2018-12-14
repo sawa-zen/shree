@@ -3,9 +3,9 @@ import Geometry from './Geometry';
 import Material from './Material';
 
 /**
- * Point
+ * Points
  */
-class Point extends Object3D {
+class Points extends Object3D {
   private _geometry: Geometry;
   get geometry() {
     return this._geometry;
@@ -24,4 +24,4 @@ class Point extends Object3D {
   }
 }
 
-export default Point;
+export default Points;

@@ -61,7 +61,7 @@ var main = function() {
   ];
 
   // 八面体ポイント
-  var point = new SHREE.Point(geometry1, material);
+  var point = new SHREE.Points(geometry1, material);
   point.position.x = 2;
   group.add(point);
 

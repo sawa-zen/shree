@@ -196,7 +196,7 @@ export const drawFace = (gl: WebGLRenderingContext, index: number[]) => {
 /**
  * ポイントを描画
  */
-export const drawPoint = (gl: WebGLRenderingContext, verticies: number[]) => {
+export const drawPoints = (gl: WebGLRenderingContext, verticies: number[]) => {
   gl.drawArrays(gl.POINTS, 0, verticies.length / 3);
 };
 

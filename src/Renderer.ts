@@ -1,7 +1,7 @@
 import Matrix4 from './Matrix4';
 import Scene from './Scene';
 import Mesh from './Mesh';
-import Point from './Point';
+import Points from './Points';
 import Object3D from './Object3D';
 import Camera from './Camera';
 import {
@@ -13,7 +13,7 @@ import {
   switchBlending,
   switchCulling,
   drawFace,
-  drawPoint,
+  drawPoints,
   clearColor
 } from './utils';
 
@@ -35,7 +35,7 @@ interface Texture {
   webglTexture: WebGLTexture;
 }
 
-type RenderableObject = Mesh | Point;
+type RenderableObject = Mesh | Points;
 interface RenderItem {
   obj: RenderableObject;
   program: WebGLProgram;
@@ -117,7 +117,7 @@ class Renderer {
    * 描画に必要なデータの生成をする
    */
   private _projectObject(obj: Object3D) {
-    if (obj instanceof Mesh || obj instanceof Point) {
+    if (obj instanceof Mesh || obj instanceof Points) {
       // プログラムオブジェクトの生成とリンク
       const program = createProgram(
         this._gl,
@@ -237,9 +237,9 @@ class Renderer {
     if (obj instanceof Mesh) {
       // 面を描画
       drawFace(this._gl, geometry.index);
-    } else if (obj instanceof Point) {
+    } else if (obj instanceof Points) {
       // ポイントを描画
-      drawPoint(this._gl, geometry.attributes.position.verticies);
+      drawPoints(this._gl, geometry.attributes.position.verticies);
     }
   }
 }
