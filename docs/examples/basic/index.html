@@ -1,31 +1,27 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>SocketReaction</title>
+  <title>shree.js demo basic</title>
   <script src="/dist/shree.js"></script>
   <script type="x-shader/x-vertex" id="vs">
     attribute vec3 position;
-    attribute vec2 textureCode;
-    uniform mat4 mMatrix;
-    uniform mat4 vMatrix;
+    attribute vec4 color;
     uniform mat4 pMatrix;
     uniform mat4 mvMatrix;
-    varying vec2 vTextureCode;
+    varying vec4 vColor;
 
     void main(void){
-      vTextureCode = textureCode;
-      vec4 mvPosition = mvMatrix * vec4(position, 1.0);
-      gl_Position = pMatrix * mvPosition;
+      vColor = color;
+      gl_Position = pMatrix * mvMatrix * vec4(position, 1.0);
     }
   </script>
   <script type="x-shader/x-fragment" id="fs">
     precision mediump float;
-    uniform sampler2D texture;
-    varying vec2 vTextureCode;
+    varying vec4 vColor;
 
     void main(void){
-      gl_FragColor = texture2D(texture, vTextureCode);
+      gl_FragColor = vColor;
     }
   </script>
 </head>
@@ -44,12 +40,6 @@ body {
 
 #wrapper > canvas {
   vertical-align: bottom;
-
-  -ms-interpolation-mode: nearest-neighbor;   /* IE8+ */
-  image-rendering: -webkit-optimize-contrast; /* Safari (WebKit) */
-  image-rendering: -moz-crisp-edges;          /* Firefox (Gecko) */
-  image-rendering: -o-crisp-edges;            /* Opera 12.x */
-  image-rendering: pixelated;                 /* Chrome 41+, Opera 29+ (CSS4) */
 }
 </style>
 <body>

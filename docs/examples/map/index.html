@@ -6,26 +6,26 @@
   <script src="/dist/shree.js"></script>
   <script type="x-shader/x-vertex" id="vs">
     attribute vec3 position;
-    attribute vec4 color;
+    attribute vec2 textureCode;
     uniform mat4 mMatrix;
     uniform mat4 vMatrix;
     uniform mat4 pMatrix;
     uniform mat4 mvMatrix;
-    varying vec4 vColor;
+    varying vec2 vTextureCode;
 
     void main(void){
-      vColor = color;
+      vTextureCode = textureCode;
       vec4 mvPosition = mvMatrix * vec4(position, 1.0);
       gl_Position = pMatrix * mvPosition;
-      gl_PointSize = 5.0;
     }
   </script>
   <script type="x-shader/x-fragment" id="fs">
     precision mediump float;
-    varying vec4 vColor;
+    uniform sampler2D texture;
+    varying vec2 vTextureCode;
 
     void main(void){
-      gl_FragColor = vColor;
+      gl_FragColor = texture2D(texture, vTextureCode);
     }
   </script>
 </head>

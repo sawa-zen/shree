@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>shree.js - Javascript 3D library</title>
+  <link rel="stylesheet" href="./index.css">
+  <link href="https://fonts.googleapis.com/css?family=Lato:300" rel="stylesheet">
+  <script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>
+</head>
+<body>
+  <aside>
+    <h1>Shree.js</h1>
+  </aside>
+  <main>
+    <section class="Demos">
+      <h2>Demos</h2>
+      <div class="Demos__list">
+        <iframe src="./examples/map" width="300" height="200" frameborder="0"></iframe>
+        <iframe src="./examples/points" width="300" height="200" frameborder="0"></iframe>
+      </div>
+    </section>
+    <section class="Usage">
+      <h2>Usage</h2>
+      <iframe src="./examples/basic" width="300" height="200" frameborder="0"></iframe>
+      <div class="Usage__code">
+        <pre><code class="prettyprint lang-c">// vertex shader
+
+attribute vec3 position;
+attribute vec4 color;
+uniform mat4 pMatrix;
+uniform mat4 mvMatrix;
+varying vec4 vColor;
+
+void main(void){
+  vColor = color;
+  gl_Position = pMatrix * mvMatrix * vec4(position, 1.0);
+}</pre></code>
+        <pre><code class="prettyprint lang-c">// fragment shader
+
+precision mediump float;
+varying vec4 vColor;
+
+void main(void){
+  gl_FragColor = vColor;
+}</pre></code>
+        <pre><code class="prettyprint lang-js">// sample.js
+
+var wrapper = document.getElementById('wrapper');
+
+var renderer = new SHREE.Renderer();
+renderer.setSize(wrapper.clientWidth, wrapper.clientHeight);
+wrapper.appendChild(renderer.domElement);
+
+var camera = new SHREE.Camera();
+camera.position.z = 2;
+
+var scene = new SHREE.Scene();
+
+var material = new SHREE.Material({
+  vertexShader: document.getElementById('vs').text,
+  fragmentShader: document.getElementById('fs').text,
+});
+
+var geometry = new SHREE.Geometry();
+geometry.addAttribute('position', 3, [
+   0.0,  1.5,  0.0,
+   1.0,  0.0,  1.0,
+   1.0,  0.0, -1.0,
+]);
+geometry.addAttribute('color', 4, [
+  1.0, 0.0, 0.0, 1.0,
+  0.0, 1.0, 0.0, 1.0,
+  0.0, 0.0, 1.0, 1.0,
+]);
+geometry.index = [0, 1, 2];
+
+var mesh = new SHREE.Mesh(geometry, material);
+scene.add(mesh);
+
+renderer.render(scene, camera);</code></pre>
+      </div>
+    </section>
+    <section class="api">
+      <h2>API</h2>
+    </section>
+  </main>
+</body>
+</html>

@@ -1,3 +1,9 @@
+var img = new Image();
+img.onload = function(event) {
+  main();
+}
+img.src = './uv_checker.png';
+
 var main = function() {
   var count = 0;
 
@@ -14,9 +20,6 @@ var main = function() {
 
   // カメラ
   var camera = new SHREE.Camera();
-  camera.position.z = 5;
-  camera.position.y = 2;
-  camera.rotation.x = -0.3;
 
   // シーン
   var scene = new SHREE.Scene();
@@ -29,6 +32,7 @@ var main = function() {
   var material = new SHREE.Material({
     vertexShader: document.getElementById('vs').text,
     fragmentShader: document.getElementById('fs').text,
+    uniforms: { texture: { type: 't', value: img } }
   });
 
   // 八面体ジオメトリ
@@ -41,13 +45,13 @@ var main = function() {
     -1.0,  0.0,  1.0,
      0.0, -1.5,  0.0,
   ]);
-  geometry1.addAttribute('color', 4, [
-    1.0, 0.0, 0.0, 1.0,
-    0.0, 1.0, 0.0, 1.0,
-    0.0, 0.0, 1.0, 1.0,
-    1.0, 1.0, 0.0, 1.0,
-    1.0, 0.0, 1.0, 1.0,
-    0.0, 1.0, 1.0, 1.0,
+  geometry1.addAttribute('textureCode', 2, [
+    1.0, 0.0,
+    0.0, 0.0,
+    0.0, 1.0,
+    1.0, 1.0,
+    0.0, 1.0,
+    1.0, 0.0,
   ]);
   geometry1.index = [
     0, 1, 2,
@@ -60,27 +64,43 @@ var main = function() {
     5, 1, 4,
   ];
 
-  // 八面体ポイント
-  var point = new SHREE.Points(geometry1, material);
-  point.position.x = 2;
-  group.add(point);
-
   // 八面体メッシュ
-  var mesh = new SHREE.Mesh(geometry1, material);
-  mesh.position.x = -2;
-  group.add(mesh);
+  var octahedral = new SHREE.Mesh(geometry1, material);
+  group.add(octahedral);
+
+  // パネルジオメトリ
+  var geometry2 = new SHREE.Geometry();
+  geometry2.addAttribute('position', 3, [
+     -25.0, -1.5, -25.0,
+      25.0, -1.5, -25.0,
+     -25.0, -1.5,  25.0,
+      25.0, -1.5,  25.0,
+  ]);
+  geometry2.addAttribute('textureCode', 2, [
+    0.0, 0.0,
+    1.0, 0.0,
+    0.0, 1.0,
+    1.0, 1.0,
+  ]);
+  geometry2.index = [
+    2, 1, 0,
+    3, 1, 2,
+  ];
+
+  // パネルメッシュ
+  var panel = new SHREE.Mesh(geometry2, material);
+  group.add(panel);
 
   // 描画を始める
   var render = function() {
     count += 0.5;
     var rad = (count % 360) * Math.PI / 180;
-    point.rotation.x = -rad;
-    point.rotation.y = -rad;
-    mesh.rotation.x = -rad;
-    mesh.rotation.y = -rad;
+    octahedral.rotation.y = -rad * 8;
+    octahedral.position.x = Math.sin(rad * 2) * 5;
+    octahedral.position.z = Math.cos(rad * 2) * 5;
+    camera.rotation.y = -rad;
     renderer.render(scene, camera);
     requestAnimationFrame(render);
   }
   render();
 }
-main();
