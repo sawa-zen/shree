@@ -10,9 +10,14 @@
 <body>
   <aside>
     <h1>Shree.js</h1>
+    <ul class="Aside__nav">
+      <li><a href="#Demos">Demos</a></li>
+      <li><a href="#BasicUsage">Basic Usage</a></li>
+      <li><a href="#API">API</a></li>
+    </ul>
   </aside>
   <main>
-    <section class="Demos">
+    <section class="Demos" id="Demos">
       <h2>Demos</h2>
       <div class="Demos__list">
         <iframe src="./examples/map" width="300" height="200" frameborder="0"></iframe>
@@ -20,7 +25,7 @@
       </div>
     </section>
     <section class="Usage">
-      <h2>Usage</h2>
+      <h2>Basic Usage</h2>
       <iframe src="./examples/basic" width="300" height="200" frameborder="0"></iframe>
       <div class="Usage__code">
         <pre><code class="prettyprint lang-c">// vertex shader
@@ -80,8 +85,35 @@ scene.add(mesh);
 renderer.render(scene, camera);</code></pre>
       </div>
     </section>
-    <section class="api">
+    <section class="API" id="API">
       <h2>API</h2>
+      <div class="API__Section">
+        <h3>Renderer</h3>
+        <div class="API__SectionBody">
+          <div class="API__SectionBodyChild">
+            <h4>constructor</h4>
+            Renderer({ antialias: boolean })
+            <ul>
+              <li>antialias - whether to perform antialiasing. Default is false.</li>
+            </ul>
+          </div>
+          <div class="API__SectionBodyChild">
+            <h4>properties</h4>
+            <ul>
+              <li>pixelRatio: number</li>
+              <li>domElement: HTMLDivElement</li>
+              <li>clearColor: number[]</li>
+            </ul>
+          </div>
+          <div class="API__SectionBodyChild">
+            <h4>methods</h4>
+            <ul>
+              <li>setSize(width: number, height: number): void</li>
+              <li>render(scene: Scene, camera: Camera): void</li>
+            </ul>
+          </div>
+        </div>
+      </div>
     </section>
   </main>
 </body>

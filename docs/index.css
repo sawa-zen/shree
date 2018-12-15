@@ -5,15 +5,14 @@
   color: #666;
 }
 
-body {
-  display: flex;
-}
-
 aside {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
   width: 300px;
   padding: 36px;
   box-sizing: border-box;
-  flex-shrink: 0;
 }
 
 aside h1 {
@@ -22,7 +21,9 @@ aside h1 {
 }
 
 main {
-  flex-grow: 1;
+  width: 100%;
+  padding-left: 300px;
+  box-sizing: border-box;
 }
 
 section {
@@ -52,15 +53,10 @@ section > h2 {
   margin-top: 24px;
 }
 
-.Usage__code pre:first-child {
-  margin-top: 0;
+.API__SectionBodyChild {
+  margin-top: 24px;
 }
 
-.Usage__code pre code {
-}
-
-footer {
-  display: flex;
-  flex-direction: column;
-  padding: 36px;
+.API__SectionBodyChild ul {
+  margin-left: 24px;
 }

@@ -72,13 +72,16 @@ var main = function() {
 
   // 描画を始める
   var render = function() {
-    count += 0.5;
+    count++;
     var rad = (count % 360) * Math.PI / 180;
     point.rotation.x = -rad;
     point.rotation.y = -rad;
     mesh.rotation.x = -rad;
     mesh.rotation.y = -rad;
-    renderer.render(scene, camera);
+
+    if (count % 2) {
+      renderer.render(scene, camera);
+    }
     requestAnimationFrame(render);
   }
   render();

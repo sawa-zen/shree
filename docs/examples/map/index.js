@@ -93,13 +93,17 @@ var main = function() {
 
   // 描画を始める
   var render = function() {
-    count += 0.5;
+    count++;
     var rad = (count % 360) * Math.PI / 180;
-    octahedral.rotation.y = -rad * 8;
-    octahedral.position.x = Math.sin(rad * 2) * 5;
-    octahedral.position.z = Math.cos(rad * 2) * 5;
-    camera.rotation.y = -rad;
-    renderer.render(scene, camera);
+    var rad2 = (count / 2 % 360) * Math.PI / 180;
+    octahedral.rotation.y = -rad * 4;
+    octahedral.position.x = Math.sin(rad) * 5;
+    octahedral.position.z = Math.cos(rad) * 5;
+    camera.rotation.y = -rad2;
+
+    if (count % 2) {
+      renderer.render(scene, camera);
+    }
     requestAnimationFrame(render);
   }
   render();
