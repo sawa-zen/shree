@@ -20,9 +20,22 @@ aside h1 {
   padding: 0 0 24px 0;
 }
 
+aside ul {
+  list-style: none;
+}
+
+aside ul li {
+  margin-top: 24px;
+}
+
+aside ul li:first-child {
+  margin-top: 0;
+}
+
 main {
   width: 100%;
   padding-left: 300px;
+  padding-bottom: 24px;
   box-sizing: border-box;
 }
 
@@ -46,17 +59,45 @@ section > h2 {
   padding: 4px;
 }
 
-.Usage__code pre {
+.BasicUsage__Code pre {
   border: 1px solid #CCC;
   border-radius: 5px;
   padding: 18px;
   margin-top: 24px;
 }
 
+.API__Section {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-top: 24px;
+  padding: 16px;
+}
+
+.API__Section:first-child {
+  margin-top: 0;
+}
+
 .API__SectionBodyChild {
   margin-top: 24px;
 }
 
-.API__SectionBodyChild ul {
-  margin-left: 24px;
+.API__SectionBodyChild h4{
+  color: #4DB5C8;
+}
+
+.API__SectionBodyChild h5{
+  margin-top: 16px;
+}
+
+.API__SectionBodyList {
+  margin-top: 16px;
+  list-style: none;
+}
+
+.API__SectionBodyList li {
+  margin-top: 8px;
+}
+
+.API__SectionBodyList li:first-child {
+  margin-top: 0;
 }
