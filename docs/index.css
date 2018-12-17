@@ -53,7 +53,7 @@ section > h2 {
   display: flex;
 }
 
-.Demos__list iframe {
+.Demos__list img {
   width: 300px;
   height: 200px;
   padding: 4px;
