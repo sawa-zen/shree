@@ -1,7 +1,7 @@
 export enum Side {
   FRONT = 'SIDE_FRONT',
   BACK = 'SIDE_BACK',
-  DOUBLE = 'DOUBLE'
+  DOUBLE = 'SIDE_DOUBLE'
 }
 
 export const getContext = (

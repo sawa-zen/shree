@@ -76,11 +76,6 @@ class Material {
     return this._blending;
   }
 
-  private _map?: HTMLImageElement;
-  get map() {
-    return this._map;
-  }
-
   constructor(props: Props) {
     this._uniforms = {
       ...this._uniforms,

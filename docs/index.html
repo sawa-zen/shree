@@ -20,13 +20,13 @@
     <section class="Demos" id="Demos">
       <h2>Demos</h2>
       <div class="Demos__list">
-        <!-- <iframe src="./examples/map" width="300" height="200" frameborder="0"></iframe> -->
-        <!-- <iframe src="./examples/points" width="300" height="200" frameborder="0"></iframe> -->
+        <iframe src="./examples/map" width="300" height="200" frameborder="0"></iframe>
+        <iframe src="./examples/points" width="300" height="200" frameborder="0"></iframe>
       </div>
     </section>
     <section class="BasicUsage" id="BasicUsage">
       <h2>Basic Usage</h2>
-      <!-- <iframe src="./examples/basic" width="300" height="200" frameborder="0"></iframe> -->
+      <iframe src="./examples/basic" width="300" height="200" frameborder="0"></iframe>
       <div class="BasicUsage__Code">
         <pre><code class="prettyprint lang-c">// vertex shader
 
@@ -93,9 +93,9 @@ renderer.render(scene, camera);</code></pre>
           <div class="API__SectionBody">
             <div class="API__SectionBodyChild">
               <h4>Constructor</h4>
-              <h5>Renderer({ antialias: boolean })</h5>
+              <h5>Renderer(parameters: object)</h5>
               <ul class="API__SectionBodyList">
-                <li>antialias - whether to perform antialiasing. Default is false.</li>
+                <li>antialias: boolean - whether to perform antialiasing. Default is false.</li>
               </ul>
             </div>
             <div class="API__SectionBodyChild">
@@ -190,7 +190,7 @@ renderer.render(scene, camera);</code></pre>
           </div>
         </div>
         <div class="API__Section">
-          <h3>Camera</h3>
+          <h3>Camera &lt; Object3D</h3>
           <div class="API__SectionBody">
             <div class="API__SectionBodyChild">
               <h4>Constructor</h4>
@@ -211,7 +211,7 @@ renderer.render(scene, camera);</code></pre>
           </div>
         </div>
         <div class="API__Section">
-          <h3>Scene</h3>
+          <h3>Scene &lt; Object3D</h3>
           <div class="API__SectionBody">
             <div class="API__SectionBodyChild">
               <h4>Constructor</h4>
@@ -226,11 +226,65 @@ renderer.render(scene, camera);</code></pre>
           </div>
         </div>
         <div class="API__Section">
-          <h3>Mesh</h3>
+          <h3>Mesh &lt; Object3D</h3>
           <div class="API__SectionBody">
             <div class="API__SectionBodyChild">
               <h4>Constructor</h4>
               <h5>Mesh(geometry: Geometry, material: Material)</h5>
+            </div>
+            <div class="API__SectionBodyChild">
+              <h4>Properties</h4>
+              <ul class="API__SectionBodyList">
+                <li>geometry: Geometry</li>
+                <li>material: Material</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="API__Section">
+          <h3>Geometry</h3>
+          <div class="API__SectionBody">
+            <div class="API__SectionBodyChild">
+              <h4>Constructor</h4>
+              <h5>Geometry()</h5>
+            </div>
+            <div class="API__SectionBodyChild">
+              <h4>Properties</h4>
+              <ul class="API__SectionBodyList">
+                <li>attribute: { [name: string]: { stride: number; vertices: number[]; } }</li>
+                <li>index: number[]</li>
+              </ul>
+            </div>
+            <div class="API__SectionBodyChild">
+              <h4>Methods</h4>
+              <ul class="API__SectionBodyList">
+                <li>addAttribute(name: string, stride: number, vertices: number[]): void</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="API__Section">
+          <h3>Material</h3>
+          <div class="API__SectionBody">
+            <div class="API__SectionBodyChild">
+              <h4>Constructor</h4>
+              <h5>Material(parameters: object)</h5>
+              <ul class="API__SectionBodyList">
+                <li>uniforms: { [name: string]: { type: 'v4' | 't', value: Matrix4 | HTMLImageElement } }</li>
+                <li>vertexShader: string</li>
+                <li>fragmentShader: string</li>
+                <li>transparent: boolean</li>
+                <li>side: 'SIDE_FRONT' | 'SIDE_BACK' | 'SIDE_DOUBLE'</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="API__Section">
+          <h3>Points &lt; Object3D</h3>
+          <div class="API__SectionBody">
+            <div class="API__SectionBodyChild">
+              <h4>Constructor</h4>
+              <h5>Points(geometry: Geometry, material: Material)</h5>
             </div>
             <div class="API__SectionBodyChild">
               <h4>Properties</h4>
