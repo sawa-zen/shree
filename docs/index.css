@@ -49,14 +49,14 @@ section > h2 {
   padding: 0 0 24px 0;
 }
 
-.Demos__list {
-  display: flex;
-}
-
-.Demos__list img {
+.Demo {
   width: 300px;
   height: 200px;
-  padding: 4px;
+  margin: 4px;
+}
+
+.Demos__list {
+  display: flex;
 }
 
 .BasicUsage__Code pre {
