@@ -11,8 +11,13 @@ interface TUniform {
   value: HTMLImageElement;
 }
 
+interface FUniform {
+  type: 'f';
+  value: number;
+}
+
 interface Uniforms {
-  [name: string]: V4Uniform | TUniform;
+  [name: string]: V4Uniform | TUniform | FUniform;
 }
 
 enum Blending {
