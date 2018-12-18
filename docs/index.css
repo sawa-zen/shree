@@ -54,26 +54,37 @@ section {
   padding: 36px;
 }
 
+section > * {
+  margin-top: 24px;
+}
+
 section > h2 {
-  padding: 0 0 24px 0;
+  padding: 0;
 }
 
 .Demo {
   width: 300px;
   height: 200px;
-  margin: 4px;
+  margin-left: 8px;
+}
+
+.Demo:first-child {
+  margin-left: 0;
 }
 
 .Demos__list {
   display: flex;
 }
 
-.BasicUsage__Code pre {
+pre {
   border: 1px solid #CCC;
   border-radius: 5px;
   padding: 18px;
-  margin-top: 24px;
   background-color: rgba(255, 255, 255, 0.7);
+}
+
+pre:first-child {
+  margin-top: 0;
 }
 
 .API__Section {
