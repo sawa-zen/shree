@@ -212,6 +212,9 @@ class Renderer {
         case 'v4':
           this._gl.uniformMatrix4fv(uniformLoc, false, uniform.value.el);
           break;
+        case 'f':
+          this._gl.uniform1f(uniformLoc, uniform.value);
+          break;
         case 't':
           const texture = this._textures.find(t => {
             return t.image.src === uniform.value.src;
