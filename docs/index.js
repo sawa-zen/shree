@@ -19,7 +19,6 @@ var main = function() {
   // シーン
   var scene = new SHREE.Scene();
 
-  // マテリアル
   var material = new SHREE.Material({
     vertexShader: document.getElementById('vs').text,
     fragmentShader: document.getElementById('fs').text,
@@ -32,7 +31,6 @@ var main = function() {
     transparent: true
   });
 
-  // 八面体ジオメトリ
   var geometry = new SHREE.Geometry();
   var position = [];
   var seed = [];
