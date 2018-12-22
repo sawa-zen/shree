@@ -45,7 +45,7 @@ var main = function() {
     -1.0,  0.0,  1.0,
      0.0, -1.5,  0.0,
   ]);
-  geometry1.addAttribute('textureCode', 2, [
+  geometry1.addAttribute('textureCoord', 2, [
     1.0, 0.0,
     0.0, 0.0,
     0.0, 1.0,
@@ -76,7 +76,7 @@ var main = function() {
      -25.0, -1.5,  25.0,
       25.0, -1.5,  25.0,
   ]);
-  geometry2.addAttribute('textureCode', 2, [
+  geometry2.addAttribute('textureCoord', 2, [
     0.0, 0.0,
     1.0, 0.0,
     0.0, 1.0,

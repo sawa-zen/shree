@@ -6,7 +6,7 @@
   <script src="https://unpkg.com/shree/dist/shree.js"></script>
   <script type="x-shader/x-vertex" id="vs">
     attribute vec3 position;
-    attribute vec2 textureCode;
+    attribute vec2 textureCoord;
     uniform mat4 mMatrix;
     uniform mat4 vMatrix;
     uniform mat4 pMatrix;
@@ -14,7 +14,7 @@
     varying vec2 vTextureCode;
 
     void main(void){
-      vTextureCode = textureCode;
+      vTextureCode = textureCoord;
       vec4 mvPosition = mvMatrix * vec4(position, 1.0);
       gl_Position = pMatrix * mvPosition;
     }
