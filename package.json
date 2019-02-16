@@ -1,6 +1,6 @@
 {
   "name": "shree",
-  "version": "0.1.8",
+  "version": "0.1.13",
   "description": "lite three.js",
   "main": "dist/shree.js",
   "sideEffects": false,
