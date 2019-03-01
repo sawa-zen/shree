@@ -41,7 +41,7 @@
     "lint-staged": "8.1.4",
     "prettier": "1.16.4",
     "ts-loader": "5.3.3",
-    "tslint": "5.13.0",
+    "tslint": "5.13.1",
     "tslint-config-prettier": "1.18.0",
     "tslint-plugin-prettier": "2.0.1",
     "typescript": "3.3.3333",
