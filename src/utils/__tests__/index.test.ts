@@ -1,8 +1,8 @@
 import { getContext } from '../index';
 
 describe('getContext', () => {
-  test('is Hoge', () => {
+  test('is not undefined', () => {
     const canvas = document.createElement('canvas');
-    expect(getContext(canvas)).toBe(getContext(canvas));
+    expect(getContext(canvas)).not.toBeUndefined();
   });
 });
