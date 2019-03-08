@@ -13,6 +13,7 @@
     "noFallthroughCasesInSwitch": true,
     "removeComments": true,
     "moduleResolution": "node",
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "noEmit": true
   }
 }
