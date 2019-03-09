@@ -20,7 +20,7 @@ jobs:
           - v1-npm-deps-{{ checksum "package-lock.json" }}
           - v1-npm-deps-
 
-      - run: npm install
+      - run: npm ci
       - run: npm run build
       - save_cache:
           paths:
