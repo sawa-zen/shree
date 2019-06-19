@@ -32,7 +32,7 @@
   },
   "homepage": "https://github.com/sawa-zen/shree#readme",
   "dependencies": {
-    "eventemitter3": "^3.1.0"
+    "eventemitter3": "^4.0.0"
   },
   "devDependencies": {
     "@types/jest": "24.0.15",
