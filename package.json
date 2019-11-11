@@ -46,7 +46,7 @@
     "prettier": "1.18.2",
     "ts-jest": "24.0.2",
     "ts-loader": "6.0.2",
-    "tslint": "5.17.0",
+    "tslint": "5.20.1",
     "tslint-config-prettier": "1.18.0",
     "tslint-plugin-prettier": "2.0.1",
     "typescript": "3.5.2",
