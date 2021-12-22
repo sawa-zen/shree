@@ -65,11 +65,15 @@ class Renderer {
 
   private _pixelRatio: number = 2;
 
-  private _domElement: HTMLCanvasElement = document.createElement('canvas');
+  private _domElement: HTMLCanvasElement;
 
   private _clearColor: number[] = [0.0, 0.0, 0.0, 1.0];
 
-  constructor(attributes: WebGLContextAttributes = {}) {
+  constructor(
+    attributes: WebGLContextAttributes = {},
+    element: HTMLCanvasElement
+  ) {
+    this._domElement = element || document.createElement('canvas');
     this._gl = getContext(this._domElement, attributes);
     this.setSize(this._width, this._height);
   }
